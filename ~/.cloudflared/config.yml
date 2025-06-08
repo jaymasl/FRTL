@@ -1,0 +1,55 @@
+tunnel: 65bedda4-5860-430a-b411-ab2be2b4bd15
+credentials-file: /home/jaykrown/.cloudflared/65bedda4-5860-430a-b411-ab2be2b4bd15.json
+
+ingress:
+  - hostname: frtl.dev
+    path: /api/*
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /static/*
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /snake-game/*
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /css-*
+    service: http://localhost:3000
+    originRequest:
+      originServerName: localhost
+      headers:
+        Content-Type: text/css
+  - hostname: frtl.dev
+    path: /js-*
+    service: http://localhost:3000
+    originRequest:
+      originServerName: localhost
+      headers:
+        Content-Type: application/javascript
+  - hostname: frtl.dev
+    path: /wasm-*
+    service: http://localhost:3000
+    originRequest:
+      originServerName: localhost
+      headers:
+        Content-Type: application/wasm
+  - hostname: frtl.dev
+    path: /match-game/*
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /2048/*
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /wheel/*
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /word-game/*
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /favicon.svg
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    path: /robots.txt
+    service: http://localhost:3000
+  - hostname: frtl.dev
+    service: http://localhost:3000
+  - service: http_status:404 

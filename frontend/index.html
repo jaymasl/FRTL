@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html style="background-color: #111827">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
+    <title>FRTL</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    
+    <script>
+        function updateCaptchaTheme() {
+            const theme = localStorage.getItem('theme');
+            if (typeof hcaptcha !== 'undefined' && document.getElementById('h-captcha-container')) {
+                window.initHCaptcha();
+            }
+        }
+
+        (function() {
+            const theme = localStorage.getItem('theme');
+            if (!theme) {
+                localStorage.setItem('theme', 'dark');
+                document.documentElement.className = 'dark';
+                document.documentElement.style.backgroundColor = '#111827';
+            } else {
+                document.documentElement.className = theme;
+                document.documentElement.style.backgroundColor = theme === 'light' ? '#f9fafb' : '#111827';
+            }
+        })();
+
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                    updateCaptchaTheme();
+                }
+            });
+        });
+
+        observer.observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ['class']
+        });
+    </script>
+
+    <link data-trunk rel="css" href="/static/styles/main.css">
+
+    <script src="https://js.hcaptcha.com/1/api.js?render=explicit" async defer></script>
+    <script>
+        function onCaptchaComplete(token) {
+            const path = window.location.pathname;
+            if (path.includes('register')) {
+                window.registerCaptchaToken = token;
+            } else if (path.includes('forgot')) {
+                window.hcaptchaToken = token;
+            } else {
+                window.loginCaptchaToken = token;
+            }
+        }
+
+        window.initHCaptcha = function() {
+            if (typeof hcaptcha !== 'undefined' && document.getElementById('h-captcha-container')) {
+                try {
+                    const isDarkMode = document.documentElement.classList.contains('dark');
+                    
+                    const container = document.getElementById('h-captcha-container');
+                    container.innerHTML = '';
+                    window.loginCaptchaToken = null;
+                    window.registerCaptchaToken = null;
+                    
+                    // Set a fixed width for the container
+                    container.style.width = '300px';
+                    container.style.margin = '0 auto';
+                    
+                    // Add a listener to ensure the iframe is properly sized after loading
+                    setTimeout(() => {
+                        const iframes = container.getElementsByTagName('iframe');
+                        if (iframes.length > 0) {
+                            iframes[0].style.width = '300px';
+                        }
+                    }, 1000);
+                    
+                    hcaptcha.render('h-captcha-container', {
+                        sitekey: 'ba1ee29a-ad2c-4f30-96c4-f4ecca40ec8a',
+                        theme: isDarkMode ? 'dark' : 'light',
+                        callback: onCaptchaComplete
+                    });
+                } catch (e) {
+                    console.error("Error initializing hCaptcha:", e);
+                }
+            } else {
+                setTimeout(window.initHCaptcha, 500);
+            }
+        };
+
+        // Function to reset captcha
+        window.resetCaptcha = function() {
+            if (typeof hcaptcha !== 'undefined') {
+                try {
+                    hcaptcha.reset();
+                    window.loginCaptchaToken = null;
+                    window.registerCaptchaToken = null;
+                } catch (e) {
+                    console.error("Error resetting hCaptcha:", e);
+                    // If reset fails, try to re-initialize
+                    window.initHCaptcha();
+                }
+            }
+        };
+    </script>
+
+    <style>
+        *, *::before, *::after {
+            transition: background-color 150ms, border-color 150ms, opacity 150ms !important;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        html { 
+            transition: background-color 150ms !important;
+        }
+        html.light { background-color: #f9fafb }
+        html.dark { background-color: #111827 }
+        .h-captcha {
+            display: block !important;
+            margin: 1.5rem auto !important;
+        }
+
+        /* Fix for CAPTCHA iframe */
+        .h-captcha iframe {
+            width: 305px !important;
+            margin: 0 auto !important;
+        }
+
+        /* Additional container fix */
+        #h-captcha-container {
+            display: block !important;
+            margin: 0 auto !important;
+            width: 305px !important;
+            overflow: visible !important;
+        }
+
+        /* Fix for inner content */
+        .h-captcha > div {
+            width: 305px !important;
+            margin: 0 auto !important;
+        }
+
+        .error-message {
+            padding: 1rem !important;
+            margin-bottom: 1.5rem !important;
+            white-space: pre-line !important;
+        }
+    </style>
+</head>
+<body>
+    <div id="app"></div>
+</body>
+</html>

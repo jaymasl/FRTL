@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Hexagon Sorting Game</title>
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+  <style>
+    body, html { 
+      margin: 0; 
+      padding: 0; 
+      width: 100%;
+      height: 100%;
+      background-color: #333333;
+      overflow: hidden;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      position: relative;
+    }
+    canvas { 
+      display: block;
+    }
+  </style>
+  <script src="three.min.js"></script>
+  <script src="OrbitControls.js"></script>
+  <script src="audio.js"></script>
+  <script src="ui.js"></script>
+</head>
+<body>
+  <div class="container">
+    <canvas id="glcanvas"></canvas>
+  </div>
+  <script src="animate.js"></script>
+  <script src="hexagon.js"></script>
+  <script src="sort.js"></script>
+  <script src="handlers.js"></script>
+  <script src="main.js"></script>
+</body>
+</html> 

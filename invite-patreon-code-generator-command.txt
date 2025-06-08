@@ -1,0 +1,11 @@
+generate code (update it so it is a 30 day member code rather than a regular invite code):
+
+curl -X POST http://127.0.0.1:3000/admin/membership-code -H "Content-Type: application/json" -H "x-internal-secret: placeholder" -d '{"duration_minutes": 5, "expiration_minutes": null}'
+
+and to get list of patreon members into our database:
+
+curl -X POST http://localhost:3000/api/patreon/fetch   -H "x-internal-secret: placeholder"
+
+restore backup
+
+sudo -u postgres psql frtl < /home/user/Documents/FRTL-v0.0.9.0/frtl_backup_20250423_095125.sql

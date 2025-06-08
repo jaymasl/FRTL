@@ -1,0 +1,17 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build:css": "tailwindcss -o ./static/styles/main.css --minify",
+    "watch:css": "tailwindcss -o ./static/styles/main.css --watch",
+    "update-db": "update-browserslist-db"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.5.1",
+    "tailwindcss": "^3.4.17",
+    "browserslist": "^4.23.2",
+    "update-browserslist-db": "^1.1.3"
+  }
+}
